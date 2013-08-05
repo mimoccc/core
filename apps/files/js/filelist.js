@@ -419,7 +419,6 @@ var FileList={
 				}
 				totalSize += parseInt($(value).data('size'));
 			});
-
 			// Get translations
 			var directoryInfo = n('files', '%n folder', '%n folders', totalDirs);
 			var fileInfo = n('files', '%n file', '%n files', totalFiles);
@@ -508,6 +507,33 @@ var FileList={
 				$connector.show();
 			}
 		}
+	},
+	scrollTo:function(file) {
+		//scroll to and highlight preselected file
+		var scrolltorow = $('tr[data-file="'+file+'"]');
+		if (scrolltorow.length > 0) {
+			scrolltorow.addClass('searchresult');
+			$(window).scrollTop(scrolltorow.position().top);
+			//remove highlight when hovered over
+			scrolltorow.one('hover', function(){
+				scrolltorow.removeClass('searchresult');
+			});
+		}
+	},
+	filter:function(query){
+		$('#fileList tr').each(function(i,e){
+			if ($(e).data('file').toLowerCase().indexOf(query.toLowerCase()) !== -1) {
+				$(e).addClass("searchresult");
+			} else {
+				$(e).removeClass("searchresult");
+			}
+		});
+		FileList.scrollTo($('#fileList tr.searchresult').first().data('file'));
+	},
+	unfilter:function(){
+		$('#fileList tr.searchresult').each(function(i,e){
+			$(e).removeClass("searchresult");
+		});
 	}
 };
 
