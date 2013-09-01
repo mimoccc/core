@@ -86,6 +86,7 @@ class OC_DB {
 							'driver' => 'pdo_sqlite',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'mysql':
 					$connectionParams = array(
@@ -98,6 +99,7 @@ class OC_DB {
 							'driver' => 'pdo_mysql',
 					);
 					$connectionParams['adapter'] = '\OC\DB\Adapter';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'pgsql':
 					$connectionParams = array(
@@ -109,6 +111,7 @@ class OC_DB {
 							'driver' => 'pdo_pgsql',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterPgSql';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				case 'oci':
 					$connectionParams = array(
@@ -123,6 +126,7 @@ class OC_DB {
 						$connectionParams['port'] = $port;
 					}
 					$connectionParams['adapter'] = '\OC\DB\AdapterOCI8';
+					$connectionParams['wrapperClass'] = 'OC\DB\OracleConnection';
 					break;
 				case 'mssql':
 					$connectionParams = array(
@@ -135,11 +139,11 @@ class OC_DB {
 							'driver' => 'pdo_sqlsrv',
 					);
 					$connectionParams['adapter'] = '\OC\DB\AdapterSQLSrv';
+					$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 					break;
 				default:
 					return false;
 			}
-			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 			$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_' );
 			try {
 				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
