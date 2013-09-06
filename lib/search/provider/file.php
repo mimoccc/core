@@ -42,8 +42,16 @@ class File extends \OC\Search\Provider {
 			if ($fileData['name'] === 'files' && $fileData['parent'] === -1) {
 				continue;
 			}
+			// create audio result
+			if($fileData['mimepart'] === 'audio'){
+				$result = new \OC\Search\Result\Audio($fileData);
+			}
+			// create image result
+			elseif($fileData['mimepart'] === 'image'){
+				$result = new \OC\Search\Result\Image($fileData);
+			}
 			// create folder result
-			if($fileData['mimetype'] === 'httpd/unix-directory'){
+			elseif($fileData['mimetype'] === 'httpd/unix-directory'){
 				$result = new \OC\Search\Result\Folder($fileData);
 			}
 			// or create file result
